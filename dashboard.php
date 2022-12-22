@@ -98,19 +98,22 @@ if (isset($_SESSION["uid"]) || isset($_COOKIE['user_login'])) {
     <script>
       $(".pay").on('click', function() {
         var analystID = $(this).attr('data-productid');
-        $.ajax({
-          type: 'post',
-          url: 'payment.php',
-          data: {
-            "analystID": analystID
-          },
+          window.location='payment.php?analystID='+ analystID;
+
+        
+        // $.ajax({
+        //   type: 'post',
+        //   url: 'payment.php',
+        //   data: {
+        //     "analystID": analystID
+        //   },
           // success: function(response) {
           //   alert("Success !!");
           // },
           // error: function() {
           //   alert("Error !!");
           // }
-        });
+        // });
       });
     </script>
 

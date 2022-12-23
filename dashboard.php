@@ -1,6 +1,5 @@
 <?php
 session_start();
-
 require_once("config/config.php");
 include_once('easebuzz-lib/easebuzz_payment_gateway.php');
 if (isset($_SESSION["uid"]) || isset($_COOKIE['user_login'])) {
@@ -9,6 +8,8 @@ if (isset($_SESSION["uid"]) || isset($_COOKIE['user_login'])) {
 
   //fetching username from either session or cookies condition
   $uname = $uun = $uup = "";
+  $name ='';
+  $email ='';
   if (isset($_SESSION["uname"])) {
     $uname  = $_SESSION['uname'];
   }
@@ -19,11 +20,14 @@ if (isset($_SESSION["uid"]) || isset($_COOKIE['user_login'])) {
   $query = "SELECT*FROM tblusers  WHERE Username='$uname'";
 
   $result = $usercredentials->runBaseQuery($query);
-
   foreach ($result as $k => $v) {
     $uun = $result[$k]['Username'];
+    $name = $result[$k]['FullName'];
+    $email = $result[$k]['UserEmail'];
     $uup = $result[$k]['Password'];
   }
+  $_SESSION['name']=$name;
+  $_SESSION['email']=$email;
   //session  condition  end  but it follows until bottom of the page
 
 
@@ -74,7 +78,8 @@ if (isset($_SESSION["uid"]) || isset($_COOKIE['user_login'])) {
           <div class="col-sm-2">
             <strong>
               <button data-productid="100" class="btn-white btn-md p-2 pay">
-                <img src="https://cdn-icons-png.flaticon.com/512/2949/2949885.png" width="150px" height="150px">&nbsp;Pay - Rs.100
+                <img src="https://cdn-icons-png.flaticon.com/512/2949/2949885.png" width="150px" height="150px">&nbsp;Pay Now
+                
               </button>
             </strong>
             <br>
@@ -92,8 +97,20 @@ if (isset($_SESSION["uid"]) || isset($_COOKIE['user_login'])) {
     <script type="text/javascript" src="<?php echo base_url(); ?>/static/js/login_form_custom.js"></script>
     <script>
       $(".pay").on('click', function() {
-        alert();
-        //  ret = DetailsView.GetProject($(this).attr("#data-id"), OnComplete, OnTimeOut, OnError);
+        var analystID = $(this).attr('data-productid');
+        $.ajax({
+          type: 'post',
+          url: 'payment.php',
+          data: {
+            "analystID": analystID
+          },
+          // success: function(response) {
+          //   alert("Success !!");
+          // },
+          // error: function() {
+          //   alert("Error !!");
+          // }
+        });
       });
     </script>
 

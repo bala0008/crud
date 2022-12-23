@@ -3,7 +3,7 @@
 date_default_timezone_set("Asia/Calcutta");   //India time (GMT+5:30)
 $file_name = basename($_SERVER['PHP_SELF'], '.php');	
     define ('ROOT_PATH', realpath(dirname(__FILE__).'/..'));
-    //define('BASE_URL()', 'http://localhost/my_book');
+    // define('BASE_URL', 'http://localhost/crud');
 
     function base_url(){
     if(isset($_SERVER['HTTPS'])){
